@@ -1,0 +1,14 @@
+export type Account={id:string;name:string;bank:string;purpose:string;openingBalance:number;openingDate:string;minimum:number;reserve:number;spendable:boolean};
+export type Transaction={id:string;name:string;date:string;amount:number;type:'expense'|'income'|'transfer';category:string;account:string;toAccount:string;ref:string;principalPaid:number};
+export type Bill={id:string;name:string;amount:number;category:string;dueDay:number;account:string;startMonth:string;endMonth:string};
+export type EMI={id:string;name:string;amount:number;principalOutstanding:number;annualRate:number;months:number;dueDay:number;account:string;startMonth:string};
+export type Asset={id:string;name:string;kind:string;value:number;employee:number;employerEPF:number;employerEPS:number;annualRate:number;asOf:string};
+export type Wish={id:string;name:string;price:number;note:string};
+export type Profile={name:string;monthlyIncome:number;salaryDay:number;salaryAccount:string;variableBudget:number;variableAccount:string;cashBuffer:number;comfortBuffer:number;forecastMonths:number};
+export type State={schemaVersion:1;profile:Profile;accounts:Account[];transactions:Transaction[];bills:Bill[];emis:EMI[];assets:Asset[];wishlist:Wish[]};
+export type Collection='accounts'|'transactions'|'bills'|'emis'|'assets'|'wishlist';
+export type Event={date:string;dueDate:string;name:string;kind:string;amount:number;account:string;ref:string;overdue:boolean};
+export type ForecastRow={month:string;date:string;bankBalance:number;available:number;income:number;outflow:number;breaches:{account:string;shortfall:number}[];accountBalances:Record<string,number>};
+export type Summary={asOf:string;bankBalance:number;assetValue:number;liabilities:number;netWorth:number;protected:number;availableCash:number;safeToSpend:number;cashShortfall:number;fundingAlerts:{account:string;shortfall:number}[];monthlyEMI:number;monthlyBills:number;monthlyCommitments:number;emiRatio:number;actualExpense:number;actualIncome:number;categories:Record<string,number>;accounts:(Account&{balance:number;protected:number;free:number})[];emis:(EMI&{remainingPrincipal:number;remainingPayments:number;endMonth:string})[];upcoming:Event[];forecast:ForecastRow[];pf:{id:string;value:number;oneYear:number;fiveYears:number;tenYears:number}[]};
+export type Payload={state:State;revision:number;summary:Summary};
+export type Decision={name:string;status:string;reasons:string[];safeToSpend:number;upfrontCost:number;remainingToday:number;lowestProjectedCash:number;recommendedDate:string|null;monthlyEMI:number;totalEMICost:number;interestAndFees:number;horizonDays:number;simulation:{date:string;noPurchase:number;cash:number;emi:number}[];assumptions:string[]};

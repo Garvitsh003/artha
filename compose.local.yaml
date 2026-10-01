@@ -1,0 +1,14 @@
+services:
+  artha:
+    build: .
+    restart: unless-stopped
+    environment:
+      APP_ENV: development
+      COOKIE_SECURE: "0"
+      DATA_DIR: /data
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - artha_data:/data
+volumes:
+  artha_data:

@@ -1,0 +1,13 @@
+node_modules
+.venv
+venv
+.git
+.env
+.env.*
+data
+.wrangler
+.sites-runtime
+__pycache__
+.pytest_cache
+*.zip
+dist-web
