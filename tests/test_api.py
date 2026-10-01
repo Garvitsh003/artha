@@ -84,3 +84,11 @@ def test_login_attempt_throttling(client):
     for i in range(10):
         assert other.post('/api/login',json={'email':'owner@example.com','password':'wrong'},headers={'X-CSRF-Token':token}).status_code==401
     assert other.post('/api/login',json={'email':'owner@example.com','password':'wrong'},headers={'X-CSRF-Token':token}).status_code==429
+
+@pytest.mark.parametrize("mode", ["DELETE", "WAL"])
+def test_configurable_sqlite_journal_mode(tmp_path, mode):
+    app=create_app({"TESTING":True,"DATABASE":str(tmp_path/(mode+".sqlite3")),
+        "SECRET_KEY":"test-only","SESSION_COOKIE_SECURE":False,"SETUP_TOKEN":"",
+        "SQLITE_JOURNAL_MODE":mode})
+    with app.app_context():
+        assert app.db().execute("PRAGMA journal_mode").fetchone()[0].upper()==mode

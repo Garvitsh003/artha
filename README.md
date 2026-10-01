@@ -2,6 +2,10 @@
 
 A complete self-hosted personal-finance web app for INR. React + TypeScript frontend, Flask API, SQLite persistence. Responsive on iPhone, desktop and tablet. The same hosted server keeps your records consistent across devices. No paid API key is needed.
 
+## PythonAnywhere + Vercel
+
+See **DEPLOY_PYTHONANYWHERE.md** for the complete two-host setup. It includes WSGI, automatic production secret generation, persistent SQLite settings and Vercel API routing.
+
 ## Start on your Mac (no Node required)
 
 The archive includes the compiled frontend and all source code. Extract into a **new `artha-finance` folder**.

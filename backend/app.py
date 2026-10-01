@@ -47,11 +47,16 @@ def create_app(test_config=None):
         app.config['TRUSTED_HOSTS'] = os.environ['TRUSTED_HOSTS'].split(',')
     if test_config:
         app.config.update(test_config)
+    # PythonAnywhere uses a network filesystem: WAL requires local shared memory.
+    app.config.setdefault('SQLITE_JOURNAL_MODE', os.environ.get('SQLITE_JOURNAL_MODE', 'DELETE').upper())
+    journal_mode = app.config['SQLITE_JOURNAL_MODE']
+    if journal_mode not in {'DELETE', 'WAL'}:
+        raise RuntimeError('SQLITE_JOURNAL_MODE must be DELETE or WAL.')
     def db():
         if 'db' not in g:
             g.db = sqlite3.connect(app.config['DATABASE'], timeout=10)
             g.db.row_factory = sqlite3.Row
-            g.db.execute('PRAGMA journal_mode=WAL')
+            g.db.execute('PRAGMA journal_mode=' + journal_mode)
             g.db.execute('PRAGMA foreign_keys=ON')
         return g.db
     app.db = db
